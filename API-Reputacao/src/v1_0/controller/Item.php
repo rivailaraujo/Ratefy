@@ -93,10 +93,12 @@ class Item
             $avaliacao->setTipo($employe['type']);
             $avaliacao->setId_item($employe['id_item']);
             $avaliacao->setNota($employe['note']);
+            $avaliacao->setId_projeto($item->getAplicacao());
             if ($dao_item->AvaliarItem($avaliacao) == 'success') {
-                if ($dao_item->UpdateMedia($avaliacao)) {
-                    return $response->withJson("Item avaliado!", 200)->withHeader('Content-type', 'application/json');
-                }
+                return $response->withJson($dao_item->GetAvaliacaoStatus($avaliacao), 200)->withHeader('Content-type', 'application/json');
+               // if ($dao_item->UpdateMedia($avaliacao)) {
+                 //   return $response->withJson("Item avaliado!", 200)->withHeader('Content-type', 'application/json');
+               // }
             } else {
                 return $response->withJson("Erro", 422)->withHeader('Content-type', 'application/json');
             }

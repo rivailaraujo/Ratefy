@@ -6,7 +6,7 @@ class DaoAplicacao{
     private $INSERT_APLICACAO= "INSERT INTO `aplicacao` (`id`, `nome_aplicacao`, `token`) VALUES ('', :nome_aplicacao, :token);";
     private $BUSCA_TOKEN = "SELECT * FROM `projetos` WHERE `chave` = :chave LIMIT 1;";
     private $BUSCA_ID_TOKEN = "SELECT projeto_id FROM `projetos` WHERE `chave` = :chave LIMIT 1;";
-    private $GET_APLICACOES= "SELECT * FROM `aplicacao`";
+    private $GET_APLICACOES= "SELECT * FROM `projetos`";
 
     public function InsertAplicacao(\AplicacaoClass $a){
         $conn = new conexao();

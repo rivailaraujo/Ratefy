@@ -7,11 +7,30 @@ class AvaliacaoClass
     private $nota;
     private $id_item;
     private $tipo;
+    private $id_projeto;
 
 
     /**
      * Get the value of nota
      */ 
+
+    public function getId_projeto()
+    {
+        return $this->id_projeto;
+    }
+
+    /**
+     * Set the value of nota
+     *
+     * @return  self
+     */ 
+    public function setId_projeto($id_projeto)
+    {
+        $this->id_projeto = $id_projeto;
+
+        return $this;
+    }
+
     public function getNota()
     {
         return $this->nota;
