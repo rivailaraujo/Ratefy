@@ -48,7 +48,7 @@ Adicione também o `component.css` em `global.scss` na pasta `src`
 **Você não é obrigado a adiconar os arquivos na pasta assets do projeto ionic. Essa é apenas uma forma de organização.**
 
 
-## Usando o Componente
+## Usando o componente
 
 Na página html de sua escolha, adicione no `body` de sua página a seguinte linha:
 
@@ -75,18 +75,18 @@ function rate(itemId, type)
 End with an example of getting some data out of the system or using it for a little demo
 
 
-## Built With
+## Construído com
 
 * [CodeIgniter](https://codeigniter.com/) - Web Framework
 * [Slim](https://www.slimframework.com/) - PHP micro framework para API
 
 
-## Authors
+## Autores
 
 * **Rivail Araújo** - *Estudante de Ciência da Computação* - [Rivail](https://gitlab.com/Rivail)
 
 
-## License
+## Licença
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
