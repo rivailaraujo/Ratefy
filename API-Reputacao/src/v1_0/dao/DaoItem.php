@@ -9,7 +9,7 @@ class DaoItem{
     private $INSERT_AVALIACAO = "INSERT INTO `avaliacao` (`id`, `nota`, `item`, `tipo`, `projeto_id`) VALUES (NULL, :nota, :item, :tipo, :projeto_id);";
     private $UPDATE_MEDIA = "UPDATE `item` SET `nota_media` = (SELECT avg(nota) FROM avaliacao WHERE item = :item AND tipo = :tipo) WHERE `item`.`id` = :item";
     private $DELETE_ITEM = "UPDATE `item` SET `excluido` = '1' WHERE `item`.`id` = :iditem";
-    private $GET_AVALIACAO_STATUS = "SELECT avg(nota) AS media , count(avaliacao.id) AS quantidade, descricao AS tipo_avaliacao FROM avaliacao, tipo_avaliacao WHERE item = :item AND tipo = :tipo AND projeto_id = :projeto_id";
+    private $GET_AVALIACAO_STATUS = "SELECT avg(nota) AS media , count(avaliacao.tipo) AS quantidade, tipo_avaliacao.descricao AS tipo_avaliacao FROM avaliacao, tipo_avaliacao WHERE item = :item AND tipo_avaliacao.id = :tipo AND avaliacao.tipo = :tipo AND projeto_id = :projeto_id";
     //private $BUSCA_TOKEN = "SELECT * FROM `aplicacao` WHERE `token` = :token LIMIT 1;";
    // private $GET_APLICACOES= "SELECT * FROM `aplicacao`";
 
