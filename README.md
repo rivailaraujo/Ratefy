@@ -2,18 +2,6 @@
 
 SysReput é um sistema de avaliação portátil compativel com qualquer aplicação web.
 
-## Getting Started
-
-***TODO***
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
 
 ## Instalação
 
@@ -89,9 +77,8 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [CodeIgniter](https://codeigniter.com/) - Web Framework
+* [Slim](https://www.slimframework.com/) - PHP micro framework para API
 
 
 ## Authors
