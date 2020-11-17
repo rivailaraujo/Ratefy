@@ -1,6 +1,6 @@
 // configurar seus argumentos
 var config = {
-  key: 'ad5cf886d451ca1e2e92ed3862bab2aa',
+  key: '2524f98231582c9395a1971fc66cfae5',
   type: 1 // {1- five-stars, 2- like-dislike, 3-Slider,}
 };
 
@@ -22,7 +22,7 @@ headID.appendChild(linkicons);
 
 
 
-var package = {
+var date = {
   value: 0,
   item_id: 0
 }
@@ -122,13 +122,13 @@ function updateTextInput(val) {
   console.log(val)
   if (val >= 70) {
     document.getElementById("ageInputId").className = "slider3";
-    package.value = val;
+    date.value = val;
   }else if (val >= 35 && val < 70){
     document.getElementById("ageInputId").className = "slider2";
-    package.value = val;
+    date.value = val;
   }else if (val < 35){
     document.getElementById("ageInputId").className = "slider1";
-    package.value = val;
+    date.value = val;
   }
 }
 
@@ -159,7 +159,7 @@ function createModalConfirm() {
 
 function rate(itemId, type) {
   config.type = type;
-  package.item_id = itemId;
+  date.item_id = itemId;
   document.getElementById('rate').innerHTML = '';
 
   console.log(config)
@@ -219,7 +219,7 @@ function starvalor(id) {
   }
   // event.target is the element that is clicked (button in this case).
   console.log(id);
-  package.value = id;
+  date.value = id;
   //this.listarTodosProdutos();
   console.log(apiURL)
   //this.avaliar_item(id)
@@ -232,8 +232,8 @@ function listarTodosProdutos() {
 
 function avaliar_item() {
   let date = new URLSearchParams({
-    id_item: package.item_id,
-    note: package.value,
+    id_item: date.item_id,
+    note: date.value,
     type: config.type,
     key: config.key
   });
