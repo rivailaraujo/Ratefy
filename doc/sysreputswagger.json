@@ -1,0 +1,597 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "SysReput é um sistema de avaliação portátil compativel com qualquer aplicação web.",
+    "version": "1.0.0",
+    "title": "Sysreput",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "rivail-f4b36e0c.localhost.run/API-Reputacao/public/index.php",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "ratings",
+      "description": "Tudo sobre suas avaliações",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "items",
+      "description": "Access to Petstore orders",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/ratings": {
+      "post": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "adicionando uma avaliaçao",
+        "description": "",
+        "operationId": "addRate",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto necessário",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Rating"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada Inválida Ou Nota inválida para tipo de avaliação"
+          },
+          "403": {
+            "description": "Chave Inválida (Parâmetro key)"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/ratings/{YOUR_KEY}": {
+      "get": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Status geral das avaliações por aplicação",
+        "description": "Retorna detalhes gerais do uso das avaliações",
+        "operationId": "getStatusGeral",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "YOUR_KEY",
+            "in": "path",
+            "description": "A chave de aplicação é necessária para conseguir os status gerais de avaliações. Use \"2524f98231582c9395a1971fc66cfae5\" para testar.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação feita com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Status"
+              }
+            }
+          },
+          "403": {
+            "description": "Chave Inválida (YOUR_KEY)"
+          }
+        }
+      }
+    },
+    "/ratings/{YOUR_KEY}/{TYPE_RATE}": {
+      "get": {
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Status geral das avaliações por aplicação e tipo de avaliação",
+        "description": "Retorna detalhes de todas as avaliações feitas com determinado tipo.",
+        "operationId": "getStatusTipo",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "YOUR_KEY",
+            "in": "path",
+            "description": "A chave de aplicação é necessária para conseguir os status gerais de avaliações. Use \"2524f98231582c9395a1971fc66cfae5\" para testar.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "TYPE_RATE",
+            "in": "path",
+            "description": "O tipo de avaliação necessário para conseguir os status gerais de avaliações. Use \"1\" para five-stars, \"2\" para  para testar like-dislike e \"3\" para slider.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação feita com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusTipo"
+              }
+            }
+          },
+          "400": {
+            "description": "Tipo Inválido (TYPE_RATE)"
+          },
+          "403": {
+            "description": "Chave Inválida (YOUR_KEY)"
+          }
+        }
+      }
+    },
+    "/items/{YOUR_KEY}/{ITEM_ID}/{TYPE}": {
+      "get": {
+        "tags": [
+          "items"
+        ],
+        "summary": "Detalhes das avaliações por item e tipo de avaliação específica.",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "operationId": "findPetsByStatus",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "YOUR_KEY",
+            "in": "path",
+            "description": "A chave de aplicação é necessária para conseguir os status gerais de avaliações. Use \"2524f98231582c9395a1971fc66cfae5\" para testar.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ITEM_ID",
+            "in": "path",
+            "description": "O id de item é necessário. Use \"1\" para testar.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "TYPE",
+            "in": "path",
+            "description": "Filtrar o resultado por tipo de avaliação (1 para Five-Star, 2 para Like-Dislike e 3 para Slider)",
+            "required": true,
+            "type": "integer",
+            "enum": [
+              1,
+              2,
+              3
+            ],
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Items"
+              }
+            }
+          },
+          "400": {
+            "description": "item inválido (ITEM_ID), tipo Inválido(TYPE) ou tipo de avaliação não encontrado para o item."
+          },
+          "403": {
+            "description": "chave inválida (YOUR_KEY)"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Rating": {
+      "type": "object",
+      "properties": {
+        "id_item": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "note": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "tipo_item": {
+          "type": "string",
+          "format": "string"
+        },
+        "key": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "xml": {
+        "name": "Order"
+      }
+    },
+    "Status": {
+      "type": "object",
+      "properties": {
+        "quantidade": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "qtd_items_avaliados": {
+          "type": "string",
+          "format": "string"
+        },
+        "tipo_avaliacao": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "xml": {
+        "name": "Order"
+      }
+    },
+    "Item": {
+      "type": "object",
+      "required": [
+        "ITEM_ID"
+      ],
+      "properties": {
+        "id_item": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "tipo_avaliacao": {
+          "type": "string",
+          "example": "five-stars"
+        },
+        "media": {
+          "type": "number",
+          "example": 5
+        },
+        "qtd_total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nota_maxima": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nota_minima": {
+          "type": "integer",
+          "format": "int64",
+          "properties": {
+            "qtd_nota1": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "qtd_nota2": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "qtd_nota3": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "qtd_nota4": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "qtd_nota5": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "Item_details_five_stars"
+      }
+    },
+    "Items": {
+      "type": "object",
+      "required": [
+        "ITEM_ID"
+      ],
+      "properties": {
+        "id_item": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "tipo_avaliacao": {
+          "type": "string",
+          "example": "five-stars"
+        },
+        "media": {
+          "type": "number",
+          "example": 5
+        },
+        "qtd_total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nota_maxima": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nota_minima": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "detalhes_nota": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/FiveStars"
+            }
+          ]
+        }
+      },
+      "xml": {
+        "name": "Item_details_five_stars"
+      }
+    },
+    "FiveStars": {
+      "type": "object",
+      "properties": {
+        "qtd_nota1": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "qtd_nota2": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "qtd_nota3": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "qtd_nota4": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "qtd_nota5": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "Item_details_five_stars"
+      }
+    },
+    "LikeDislike": {
+      "type": "object",
+      "properties": {
+        "qtd_like": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "qtd_dislike": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "Item_details_five_stars"
+      }
+    },
+    "StatusTipo": {
+      "type": "object",
+      "properties": {
+        "nota": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "item": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "tipo_avaliacao": {
+          "type": "string",
+          "format": "string"
+        },
+        "tipo_item": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "xml": {
+        "name": "Order"
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "petId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "shipDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "Order Status",
+          "enum": [
+            "placed",
+            "approved",
+            "delivered"
+          ]
+        },
+        "complete": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "xml": {
+        "name": "Order"
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userStatus": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User Status"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Tag"
+      }
+    },
+    "Pet": {
+      "type": "object",
+      "required": [
+        "name",
+        "photoUrls"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "example": "doggie"
+        },
+        "photoUrls": {
+          "type": "array",
+          "xml": {
+            "name": "photoUrl",
+            "wrapped": true
+          },
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "xml": {
+            "name": "tag",
+            "wrapped": true
+          },
+          "items": {
+            "$ref": "#/definitions/Tag"
+          }
+        },
+        "status": {
+          "type": "string",
+          "description": "pet status in the store",
+          "enum": [
+            "available",
+            "pending",
+            "sold"
+          ]
+        }
+      },
+      "xml": {
+        "name": "Pet"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

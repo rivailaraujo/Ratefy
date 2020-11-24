@@ -1,0 +1,21 @@
+    //DELIMITER $$
+    // CREATE PROCEDURE getNota (IN item INT, IN projeto INT, IN tipoavaliacao INT)
+        //     BEGIN
+        //     IF tipoavaliacao = 1 THEN
+        //     SELECT COUNT(*) FROM avaliacao WHERE nota = 5 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota5;
+        //     SELECT COUNT(*) FROM avaliacao WHERE nota = 4 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota4;
+        //     SELECT COUNT(*) FROM avaliacao WHERE nota = 3 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota3;
+        //     SELECT COUNT(*) FROM avaliacao WHERE nota = 2 AND avaliacao.item = item  AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota2;
+        //     SELECT COUNT(*) FROM avaliacao WHERE nota = 1 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota1;
+        //     SELECT @nota1 AS qtd_nota1, @nota2 AS qtd_nota2, @nota3 AS qtd_nota3, @nota4 AS qtd_nota4, @nota5 AS qtd_nota5;
+        //     END IF;
+
+            // IF tipoavaliacao = 2 THEN
+            // SELECT COUNT(*) FROM avaliacao WHERE nota = 1 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND avaliacao.item = item AND tipo = 2 into @like;
+            // SELECT COUNT(*) FROM avaliacao WHERE nota = 0 AND avaliacao.item = item AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 2 into @dislike;
+        
+            // SELECT @like AS qtd_like, @dislike AS qtd_dislike;
+            // END IF;
+
+        // END
+    // DELIMITER;
