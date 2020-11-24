@@ -5,10 +5,9 @@ var config = {
 };
 
 
-var trigger;
 var closeButton;
 var modal;
-
+var retorno = null;
 
 
 const apiURL = 'http://localhost/API-Reputacao/public/index.php/v1.0';
@@ -22,7 +21,7 @@ headID.appendChild(linkicons);
 
 
 
-var date = {
+var dados = {
   value: 0,
   item_id: 0
 }
@@ -49,21 +48,21 @@ function createModal() {
   <div class="rating">
           <div class="stars">
               <form id = "form" action="">
-                <input class="star star-5" id="star-5" type="radio" name="star" onClick="starvalor(5)"/>
+                <input class="star star-5" id="star-5" type="radio" name="star" onclick="starvalor(5)"/>
                 <label class="star star" for="star-5"></label>
-                <input class="star star" id="star-4" type="radio" name="star" onClick="starvalor(4)"/>
+                <input class="star star" id="star-4" type="radio" name="star" onclick="starvalor(4)"/>
                 <label class="star star" for="star-4"></label>
-                <input class="star star" id="star-3" type="radio" name="star" onClick="starvalor(3)"/>
+                <input class="star star" id="star-3" type="radio" name="star" onclick="starvalor(3)"/>
                 <label class="star star" for="star-3"></label>
-                <input class="star star" id="star-2" type="radio" name="star" onClick="starvalor(2)"/>
+                <input class="star star" id="star-2" type="radio" name="star" onclick="starvalor(2)"/>
                 <label class="star star" for="star-2"></label>
-                <input class="star star-1" id="star-1" type="radio" name="star" onClick="starvalor(1)"/>
+                <input class="star star-1" id="star-1" type="radio" name="star" onclick="starvalor(1)"/>
                 <label class="star star" for="star-1"></label>
               </form>
             </div>
   </div>
   <div style = "text-align: center; padding-top: 15px;">
-  <button class="confirm" onClick="avaliar_item()">Confirmar</button>
+  <button class="confirm" onclick="avaliar_item()">Confirmar</button>
   </div>
 </div>
 
@@ -100,7 +99,7 @@ function createModal() {
         <h1>Deixe sua opinião!</h1>
                 
                 <div class = "ratingslider">
-                <div><input type="range" class = "slider" name="ageInputName" id="ageInputId" value="50" min="1" max="100"  oninput="ageOutputId.value = ageInputId.value" onchange="updateTextInput(ageInputId.value)";>
+                <div><input type="range" class = "slider" name="ageInputName" id="ageInputId" value="50" min="1" max="100"  oninput="ageOutputId.value = ageInputId.value" onchange="updadosTextInput(ageInputId.value)";>
                 </div>
                 <div style="padding-top: 10px;"><output name="ageOutputName" id="ageOutputId">50</output></div>
                                 
@@ -117,18 +116,18 @@ function createModal() {
 
 }
 
-function updateTextInput(val) {
+function updadosTextInput(val) {
   //document.getElementById('textInput').value=val; 
   console.log(val)
   if (val >= 70) {
     document.getElementById("ageInputId").className = "slider3";
-    date.value = val;
+    dados.value = val;
   }else if (val >= 35 && val < 70){
     document.getElementById("ageInputId").className = "slider2";
-    date.value = val;
+    dados.value = val;
   }else if (val < 35){
     document.getElementById("ageInputId").className = "slider1";
-    date.value = val;
+    dados.value = val;
   }
 }
 
@@ -159,7 +158,7 @@ function createModalConfirm() {
 
 function rate(itemId, type) {
   config.type = type;
-  date.item_id = itemId;
+  dados.item_id = itemId;
   document.getElementById('rate').innerHTML = '';
 
   console.log(config)
@@ -188,9 +187,8 @@ function renderModal(element) {
 
 
 function toggleModal() {
-
   if (document.getElementById('form')) {
-    console.log("Entrou Form")
+    
     document.getElementById('form').reset();
   }
   modal.classList.toggle("show-modal");
@@ -219,7 +217,7 @@ function starvalor(id) {
   }
   // event.target is the element that is clicked (button in this case).
   console.log(id);
-  date.value = id;
+  dados.value = id;
   //this.listarTodosProdutos();
   console.log(apiURL)
   //this.avaliar_item(id)
@@ -230,33 +228,36 @@ function listarTodosProdutos() {
     .subscribe(resultado => console.log(resultado));
 }
 
-function avaliar_item() {
-  let date = new URLSearchParams({
-    id_item: date.item_id,
-    note: date.value,
+function rate_item() {
+  let data = new URLSearchParams({
+    id_item: dados.item_id,
+    note: dados.value,
     type: config.type,
     key: config.key
   });
 
 
-  console.log(date.toString());
-
-  var ajax = new XMLHttpRequest();
+  console.log(data.toString());
+ // var response;
+  return new Promise(function(resolve, reject) {
+    var ajax = new XMLHttpRequest();
   //console.log(this.data.apiURL)
   // Seta tipo de requisição: Post e a URL da API
   ajax.open("POST", `${apiURL}/project/avaliarItem`, true);
   ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-  //console.log(date)
+  //console.log(dados)
   // Seta paramêtros da requisição e envia a requisição
-  ajax.send(date);
+  ajax.send(data);
 
-  ajax.onreadystatechange = function () {
+  ajax.onreadystatechange =  function () {
     // Caso o state seja 4 e o http.status for 200, é porque a requisiçõe deu certo.
     if (ajax.readyState == 4 && ajax.status == 200) {
-      var data = ajax.responseText;
+      //var data = JSON.parse(ajax.responseType(json)) ;
+      //response = JSON.parse(ajax.response);
       // Retorno do Ajax
-      console.log(data);
+     // console.log(response);
+
       document.getElementById("confirm").style.width = "12rem";
       document.getElementById("confirm").innerHTML = `
       
@@ -267,9 +268,16 @@ function avaliar_item() {
     <p style="text-align: center" >Sua avaliação é importante</p>
 
       `;
+      resolve(JSON.parse(ajax.response));
       //toggleModal();
-
+      //retorno = data;
+      //callback(JSON.parse(ajax.responseText)); 
     }
+    
   }
+  });
 }
+  
 
+
+//export {rate};
