@@ -11,6 +11,11 @@ Certifique-se de baixar os arquivos `component.js` e `component.css` em [release
 Acesse o site do [sysreput](#), crie uma conta e faça seu login.
 Adicione um projeto para gerar uma chave única. Salve-a.
 
+O component javasript faz uso da rota '/ratings' da API. Para conhecer detalhes dessa rota e de outros usos da api, [clique aqui](https://app.swaggerhub.com/apis-docs/Rivail/sysreput/1.0.0).
+
+A chave gerada no site é api_key necessária para todas as requisições. Certifique de usar no cabeçário da solicitação o Api_key. Como exemplo use:
+'2524f98231582c9395a1971fc66cfae5'
+
 Copie a chave de sua escolha e substitua o campo `key` na váriavel `config` em `component.js` pela sua chave.
 
 ```js
