@@ -84,6 +84,7 @@ End with an example of getting some data out of the system or using it for a lit
 
 * [CodeIgniter](https://codeigniter.com/) - Web Framework
 * [Slim](https://www.slimframework.com/) - PHP micro framework para API
+* [Swagger](https://swagger.io/) - API Development and docs
 
 
 ## Autores
