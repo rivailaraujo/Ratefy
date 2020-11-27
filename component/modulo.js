@@ -10,7 +10,7 @@ var modal;
 var retorno = null;
 
 
-const apiURL = 'http://localhost/API-Reputacao/public/index.php/v1.0';
+const apiURL = 'http://localhost/API-Reputacao/public/index.php/v1';
 
 var headID = document.getElementsByTagName('head')[0];
 var linkicons = document.createElement('link');
@@ -19,7 +19,10 @@ linkicons.rel = 'stylesheet';
 linkicons.href = '//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css';
 headID.appendChild(linkicons);
 
-
+let div = document.createElement('div');
+div.className = 'rate-component';
+div.id = 'rate';
+document.body.appendChild(div)
 
 var dados = {
   value: 0,
@@ -233,7 +236,7 @@ function rate_item() {
     id_item: dados.item_id,
     note: dados.value,
     type: config.type,
-    key: config.key
+    tipo_item: 'aplicativo'
   });
 
 
@@ -243,9 +246,9 @@ function rate_item() {
     var ajax = new XMLHttpRequest();
   //console.log(this.data.apiURL)
   // Seta tipo de requisição: Post e a URL da API
-  ajax.open("POST", `${apiURL}/project/avaliarItem`, true);
+  ajax.open("POST", `${apiURL}/ratings`, true);
   ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
+  ajax.setRequestHeader("Api_key", "2524f98231582c9395a1971fc66cfae5");  
   //console.log(dados)
   // Seta paramêtros da requisição e envia a requisição
   ajax.send(data);
