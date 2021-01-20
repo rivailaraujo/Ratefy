@@ -7,7 +7,7 @@ var config = {
 
 var closeButton;
 var modal;
-var retorno = null;
+var retorno;
 
 
 const apiURL = 'http://localhost/API-Reputacao/public/index.php/v1';
@@ -34,6 +34,7 @@ var dados = {
 
 
 function createModal() {
+  
 
   // var headID = document.getElementsByTagName('head')[0];
   // var linkstyle = document.createElement('link');
@@ -47,8 +48,18 @@ function createModal() {
     return (`
   <div id = 'confirm' class="rate-component-modal-content">
   <span class="close-button">&times;</span>
-  <h1  >Deixe sua opinião!</h1>
-  <div class="rating">
+  <h1>Deixe sua opinião!</h1>
+  <div class = "div-rate-status">
+  ${retorno.media}
+  <span id="star-media-1" class="fa fa-star"></span>
+  <span id="star-media-2" class="fa fa-star"></span>
+  <span id="star-media-3" class="fa fa-star"></span>
+  <span id="star-media-4" class="fa fa-star"></span>
+  <span id="star-media-5" class="fa fa-star"></span>
+  (${retorno.qtd_total})
+  </div>
+
+   <div class="rating">
           <div class="stars">
               <form id = "form" action="">
                 <input class="star star-5" id="star-5" type="radio" name="star" onclick="starvalor(5)"/>
@@ -80,10 +91,12 @@ function createModal() {
         <div class="ratinglikedislike">
             <div class="like grow">
                 <i class="fa fa-thumbs-up fa-3x like" aria-hidden="true" onClick="starvalor(1)"></i>
+                <div id = "rate-like" class="column">${retorno.detalhes_nota.qtd_like}</div>
             </div>
             <!-- Thumbs down -->
             <div class="dislike grow">
                 <i class="fa fa-thumbs-down fa-3x dislike" aria-hidden="true" onClick="starvalor(0)"></i>
+                <div id = "rate-dislike" class="column">${retorno.detalhes_nota.qtd_dislike}</div>
             </div>
         </div>
         <div style="text-align: center; padding-top: 15px;">
@@ -162,36 +175,132 @@ function createModalConfirm() {
 function rate(itemId, type) {
   config.type = type;
   dados.item_id = itemId;
-  document.getElementById('rate').innerHTML = '';
+  let data = new URLSearchParams({
+    id_item: dados.item_id,
+    note: dados.value,
+    type: config.type,
+    tipo_item: 'aplicativo'
+  });
 
-  console.log(config)
-  modal = document.querySelector(".rate-component");
-  renderModal(modal);
 
+  //console.log(data.toString());
+ // var response;
+  return new Promise(function(resolve, reject) {
+    var ajax = new XMLHttpRequest();
+  //console.log(this.data.apiURL)
+  // Seta tipo de requisição: Post e a URL da API
+  ajax.open("GET", `${apiURL}/items/`+itemId+`/`+type, true);
+  ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  ajax.setRequestHeader("Api_key", "2524f98231582c9395a1971fc66cfae5");  
+  //console.log(dados)
+  // Seta paramêtros da requisição e envia a requisição
+  ajax.send(data);
 
+  ajax.onreadystatechange =  function () {
+    // Caso o state seja 4 e o http.status for 200, é porque a requisiçõe deu certo.
+    if (ajax.readyState == 4 && ajax.status == 200) {
+      //console.log(JSON.parse(ajax.response))
+      retorno = JSON.parse(ajax.response);
+      //console.log(retorno)
+      //resolve(JSON.parse(ajax.response));
+      document.getElementById('rate').innerHTML = '';
+      //console.log(config)
+      modal = document.querySelector(".rate-component");
+      renderModal(modal);
 
-  //trigger = document.querySelector(".trigger");
-  closeButton = document.querySelector(".close-button");
-  //trigger.addEventListener("click", toggleModal);
-  closeButton.addEventListener("click", toggleModal);
-  window.addEventListener("click", windowOnClick);
-  toggleModal();
+    //trigger = document.querySelector(".trigger");
+    closeButton = document.querySelector(".close-button");
+    //trigger.addEventListener("click", toggleModal);
+    closeButton.addEventListener("click", toggleModal);
+    window.addEventListener("click", windowOnClick);
+    toggleModal();
+      //toggleModal();
+      //retorno = data;
+      //callback(JSON.parse(ajax.responseText)); 
+    }else if (ajax.readyState == 4 && ajax.status != 200){
+      //console.log("TESTE")
+      if (type == 1){
+        retorno = {
+          qtd_total: 0,
+          media: 0
+        }
+      }else if (type == 2){
+        retorno = {
+          detalhes_nota: {
+            qtd_like: 0,
+            qtd_dislike: 0
+          }
+        }
+      }
+      //retorno = JSON.parse(ajax.response);
+      //console.log(retorno)
+      //resolve(JSON.parse(ajax.response));
+      document.getElementById('rate').innerHTML = '';
+      //console.log(config)
+      modal = document.querySelector(".rate-component");
+      renderModal(modal);
+
+    //trigger = document.querySelector(".trigger");
+    closeButton = document.querySelector(".close-button");
+    //trigger.addEventListener("click", toggleModal);
+    closeButton.addEventListener("click", toggleModal);
+    window.addEventListener("click", windowOnClick);
+    toggleModal();
+      //toggleModal();
+      //retorno = data;
+      //callback(JSON.parse(ajax.responseText)); 
+    }
+    
+  }
+  });
+  
 }
 
 
 
 
 function renderModal(element) {
-  console.log("Entrou 2")
+  //console.log("Entrou 2")
   const markup = createModal();
   element.innerHTML = markup;
+  if(config.type == 1){
+    if(retorno.media >= 1 && retorno.media < 2){
+      document.getElementById('star-media-1').classList.add("checked");
+    }else if(retorno.media >= 2 && retorno.media < 3){
+      document.getElementById('star-media-1').classList.add("checked");
+      document.getElementById('star-media-2').classList.add("checked");
+    }
+    else if(retorno.media >= 3 && retorno.media < 4){
+      document.getElementById('star-media-1').classList.add("checked");
+      document.getElementById('star-media-2').classList.add("checked");
+      document.getElementById('star-media-3').classList.add("checked");
+    }else if(retorno.media >= 4 && retorno.media < 5){
+      document.getElementById('star-media-1').classList.add("checked");
+      document.getElementById('star-media-2').classList.add("checked");
+      document.getElementById('star-media-3').classList.add("checked");
+      document.getElementById('star-media-4').classList.add("checked");
+    }else if(retorno.media == 5){
+      document.getElementById('star-media-1').classList.add("checked");
+      document.getElementById('star-media-2').classList.add("checked");
+      document.getElementById('star-media-3').classList.add("checked");
+      document.getElementById('star-media-4').classList.add("checked");
+      document.getElementById('star-media-5').classList.add("checked");
+    }
+  }
 };
 
 
 
 function toggleModal() {
   if (document.getElementById('form')) {
-    
+    retorno = {
+      media: 0,
+      qtd_total: 0,
+      detalhes_nota: {
+        qtd_like: 0,
+        qtd_dislike: 0
+      }
+    };
     document.getElementById('form').reset();
   }
   modal.classList.toggle("show-modal");
@@ -206,23 +315,28 @@ function windowOnClick(event) {
 
 
 function starvalor(id) {
-  console.log("AKi")
+  //console.log("AKi")
   if (config.type == 2) {
     if (id == 1) {
+      document.getElementById("rate-dislike").innerHTML = Number(retorno.detalhes_nota.qtd_dislike);
       document.querySelector(".like").classList.toggle("activelike");
       document.querySelector(".dislike").classList.remove("activedislike");
+      //document.getElementById("rate-like").innerHTML = '';
+      document.getElementById("rate-like").innerHTML = Number(retorno.detalhes_nota.qtd_like) + 1;
     } else if (id == 0) {
+      document.getElementById("rate-like").innerHTML = Number(retorno.detalhes_nota.qtd_like);
       document.querySelector(".dislike").classList.toggle("activedislike");
       document.querySelector(".like").classList.remove("activelike");
+      document.getElementById("rate-dislike").innerHTML = Number(retorno.detalhes_nota.qtd_dislike) + 1;
     }
   } else if (id == 3) {
       
   }
   // event.target is the element that is clicked (button in this case).
-  console.log(id);
+  //console.log(id);
   dados.value = id;
   //this.listarTodosProdutos();
-  console.log(apiURL)
+  //console.log(apiURL)
   //this.avaliar_item(id)
 }
 

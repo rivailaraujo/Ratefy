@@ -14,7 +14,19 @@
   transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
 }
 
+.div-rate-status{
+  font-size: .9em;
+  margin-bottom: .9em;
+  text-align: center;
+}
+.checked {
+  color: orange;
+}
 
+.column {
+  float: left;
+  width: 100%;
+}
 
 .modal-image {
   
