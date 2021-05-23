@@ -202,7 +202,7 @@ class Item
         $item = new \ItemClass();
         $dao_aplicacao = new \DaoAplicacao();
         $employe = $request->getParsedBody();
-
+        
         if (isset($headers['Api_key'])) {
             $dao_item = new \DaoItem();
             $dao_aplicacao = new \DaoAplicacao();
@@ -211,10 +211,11 @@ class Item
             $item->setAplicacao($headers['Api_key']);
 
             $item->setAplicacao($dao_aplicacao->RetornaIdToken($item));
+            
             if (empty(isset($employe['id_item'])) || empty(isset($employe['note'])) || empty(isset($employe['type'])) || empty(isset($employe['tipo_item']))) {
                 return $response->withJson("Entrada inválida", 400)->withHeader('Content-type', 'application/json');
             }
-            if($item->getAplicacao() == 'Erro, Chave inválida'){
+            else if($item->getAplicacao() == 'Erro, Chave inválida'){
                 return $response->withJson("Chave inválida", 403)->withHeader('Content-type', 'application/json');
             }
             $item->setAplicacao($headers['Api_key']);
@@ -235,11 +236,13 @@ class Item
                     }
             }
             if ($item->getAplicacao() > 0) {
+                
                     $avaliacao = new \AvaliacaoClass();
                     $avaliacao->setTipo($employe['type']);
                     $avaliacao->setId_item($employe['id_item']);
                     $avaliacao->setNota($employe['note']);
                     $avaliacao->setId_projeto($item->getAplicacao());
+                    
                     if ($dao_item->AvaliarItem($avaliacao, $employe['tipo_item']) == 'success') {
                         return $response->withJson($dao_item->GetAvaliacaoStatus($avaliacao), 200)->withHeader('Content-type', 'application/json');
                     } else {

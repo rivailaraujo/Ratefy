@@ -1,6 +1,6 @@
 // configurar seus argumentos
 var config = {
-  key: '2524f98231582c9395a1971fc66cfae5',
+  key: '2aad1de6b37f7e9553d3fe9caa0c066b',
   type: 1 // {1- five-stars, 2- like-dislike, 3-Slider,}
 };
 
@@ -76,7 +76,7 @@ function createModal() {
             </div>
   </div>
   <div style = "text-align: center; padding-top: 15px;">
-  <button class="confirm" onclick="avaliar_item()">Confirmar</button>
+  <button class="confirm" onclick="rate_item()">Confirmar</button>
   </div>
 </div>
 
@@ -100,7 +100,7 @@ function createModal() {
             </div>
         </div>
         <div style="text-align: center; padding-top: 15px;">
-            <button class="confirm" onClick="avaliar_item()">Confirmar</button>
+            <button class="confirm" onClick="rate_item()">Confirmar</button>
         </div>
     </div>
   
@@ -109,6 +109,7 @@ function createModal() {
   } else if (config.type == 3) {
     document.getElementById('rate').innerHTML = '';
     console.log("ENTROU 3")
+    dados.value = 50;
     return (`
     <div id='confirm' class="rate-component-modal-content">
         <span class="close-button">&times;</span>
@@ -121,7 +122,7 @@ function createModal() {
                                 
                 </div>
         <div style="text-align: center; padding-top: 15px;">
-            <button class="confirm" onClick="avaliar_item()">Confirmar</button>
+            <button class="confirm" onClick="rate_item()">Confirmar</button>
         </div>
     </div>
     
@@ -173,6 +174,7 @@ function createModalConfirm() {
 }
 
 function rate(itemId, type) {
+  console.log("RATE");
   config.type = type;
   dados.item_id = itemId;
   let data = new URLSearchParams({
@@ -191,7 +193,7 @@ function rate(itemId, type) {
   // Seta tipo de requisição: Post e a URL da API
   ajax.open("GET", `${apiURL}/items/`+itemId+`/`+type, true);
   ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  ajax.setRequestHeader("Api_key", "2524f98231582c9395a1971fc66cfae5");  
+  ajax.setRequestHeader("Api_key", config.key);  
   //console.log(dados)
   // Seta paramêtros da requisição e envia a requisição
   ajax.send(data);
@@ -337,7 +339,7 @@ function starvalor(id) {
   dados.value = id;
   //this.listarTodosProdutos();
   //console.log(apiURL)
-  //this.avaliar_item(id)
+  //this.rate_item(id)
 }
 
 function listarTodosProdutos() {
@@ -346,6 +348,7 @@ function listarTodosProdutos() {
 }
 
 function rate_item() {
+  console.log("RATE ITEM");
   let data = new URLSearchParams({
     id_item: dados.item_id,
     note: dados.value,
@@ -362,7 +365,7 @@ function rate_item() {
   // Seta tipo de requisição: Post e a URL da API
   ajax.open("POST", `${apiURL}/ratings`, true);
   ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  ajax.setRequestHeader("Api_key", "2524f98231582c9395a1971fc66cfae5");  
+  ajax.setRequestHeader("Api_key", config.key);  
   //console.log(dados)
   // Seta paramêtros da requisição e envia a requisição
   ajax.send(data);

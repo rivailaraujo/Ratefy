@@ -3,26 +3,26 @@
 
 class DaoItem{
     // procedimento pro banco de dados: 
-    //DELIMITER $$
+    // DELIMITER $$
     // CREATE PROCEDURE getNota (IN item INT, IN projeto INT, IN tipoavaliacao INT)
-        //     BEGIN
-        //     IF tipoavaliacao = 1 THEN
-        //     SELECT COUNT(*) FROM avaliacao WHERE nota = 5 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota5;
-        //     SELECT COUNT(*) FROM avaliacao WHERE nota = 4 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota4;
-        //     SELECT COUNT(*) FROM avaliacao WHERE nota = 3 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota3;
-        //     SELECT COUNT(*) FROM avaliacao WHERE nota = 2 AND avaliacao.item = item  AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota2;
-        //     SELECT COUNT(*) FROM avaliacao WHERE nota = 1 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota1;
-        //     SELECT @nota1 AS qtd_nota1, @nota2 AS qtd_nota2, @nota3 AS qtd_nota3, @nota4 AS qtd_nota4, @nota5 AS qtd_nota5;
-        //     END IF;
+    //         BEGIN
+    //         IF tipoavaliacao = 1 THEN
+    //         SELECT COUNT(*) FROM avaliacao WHERE nota = 5 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota5;
+    //         SELECT COUNT(*) FROM avaliacao WHERE nota = 4 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota4;
+    //         SELECT COUNT(*) FROM avaliacao WHERE nota = 3 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota3;
+    //         SELECT COUNT(*) FROM avaliacao WHERE nota = 2 AND avaliacao.item = item  AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota2;
+    //         SELECT COUNT(*) FROM avaliacao WHERE nota = 1 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 1 into @nota1;
+    //         SELECT @nota1 AS qtd_nota1, @nota2 AS qtd_nota2, @nota3 AS qtd_nota3, @nota4 AS qtd_nota4, @nota5 AS qtd_nota5;
+    //         END IF;
 
-            // IF tipoavaliacao = 2 THEN
-            // SELECT COUNT(*) FROM avaliacao WHERE nota = 1 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND avaliacao.item = item AND tipo = 2 into @like;
-            // SELECT COUNT(*) FROM avaliacao WHERE nota = 0 AND avaliacao.item = item AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 2 into @dislike;
+    //         IF tipoavaliacao = 2 THEN
+    //         SELECT COUNT(*) FROM avaliacao WHERE nota = 1 AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND avaliacao.item = item AND tipo = 2 into @like;
+    //         SELECT COUNT(*) FROM avaliacao WHERE nota = 0 AND avaliacao.item = item AND avaliacao.item = item AND avaliacao.projeto_id = projeto AND tipo = 2 into @dislike;
         
-            // SELECT @like AS qtd_like, @dislike AS qtd_dislike;
-            // END IF;
+    //         SELECT @like AS qtd_like, @dislike AS qtd_dislike;
+    //         END IF;
 
-        // END
+    //     END
     // DELIMITER;
 
     private $INSERT_ITEM= "INSERT INTO `item` (`id`, `data_insercao`, `nome_item`, `nota_media`, `aplicacao`, `tipo`) VALUES (NULL, NOW(), :nome_item, 0, :aplicacao, :tipo);";
@@ -31,7 +31,7 @@ class DaoItem{
     private $GET_ITEM_POR_TIPO = "SELECT item AS id_item, tipo_avaliacao.id AS id_avaliacao ,tipo_avaliacao.descricao AS tipo_avaliacao,avg(nota) AS media, COUNT(nota) AS qtd_total ,MAX(nota) AS nota_maxima, MIN(nota) AS nota_minima FROM `avaliacao`, `tipo_avaliacao` WHERE avaliacao.tipo = tipo_avaliacao.id AND avaliacao.item = :item AND avaliacao.projeto_id = :aplicacao AND avaliacao.tipo = :avaliacao GROUP BY tipo_avaliacao ORDER BY tipo_avaliacao.id";
     private $GET_DETALHES_NOTA_FIVE_STARS = "call getNota(:item, :aplicacao, :tipo)";
     private $GET_STATUS_TIPO = "SELECT nota, item, tipo_avaliacao.descricao AS tipo_avaliacao, tipo_item FROM `avaliacao`, `tipo_avaliacao` WHERE tipo = tipo_avaliacao.id AND tipo = :tipo AND projeto_id = :aplicacao";
-    private $INSERT_AVALIACAO = "INSERT INTO `avaliacao` (`id`, `nota`, `item`, `tipo`, `tipo_item`,`projeto_id`) VALUES (NULL, :nota, :item, :tipo, :tipo_item, :projeto_id);";
+    private $INSERT_AVALIACAO = "INSERT INTO `avaliacao` (`id`, `nota`, `item`, `tipo`, `data`, `tipo_item`,`projeto_id`) VALUES (NULL, :nota, :item, :tipo, NOW(),:tipo_item, :projeto_id);";
     private $UPDATE_MEDIA = "UPDATE `item` SET `nota_media` = (SELECT avg(nota) FROM avaliacao WHERE item = :item AND tipo = :tipo) WHERE `item`.`id` = :item";
     private $DELETE_ITEM = "UPDATE `item` SET `excluido` = '1' WHERE `item`.`id` = :iditem";
     private $GET_AVALIACAO_STATUS = "SELECT avg(nota) AS media , count(avaliacao.tipo) AS quantidade, tipo_avaliacao.descricao AS tipo_avaliacao, avaliacao.tipo_item FROM avaliacao, tipo_avaliacao WHERE item = :item AND tipo_avaliacao.id = :tipo AND avaliacao.tipo = :tipo AND projeto_id = :projeto_id";

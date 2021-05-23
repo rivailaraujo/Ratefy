@@ -1,6 +1,6 @@
 // configurar seus argumentos
 var config = {
-  key: '2524f98231582c9395a1971fc66cfae5',
+  key: 'f9da25b1ec6cbe62c5c71af690650017',
   type: 1 // {1- five-stars, 2- like-dislike, 3-Slider,}
 };
 
@@ -235,7 +235,7 @@ function avaliar_item() {
     id_item: date.item_id,
     note: date.value,
     type: config.type,
-    key: config.key
+    Api_key: config.key
   });
 
 
