@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $('#from_7').remove();
+	$("#login-menu")[0].innerHTML = 'Gerenciador';
 });
 
 $(function(){
